@@ -100,6 +100,8 @@ jobs:
       with:
         fetch-depth: '0' # to compute the monotonic version correctly
         submodules: true
+    - name: Output runner info
+      run: uname -a
     - name: Fetch versions and paths
       run: |
         for mod in "${{ env.VCPKG_ROOT }}" "${{ env.MIXXX_ROOT }}"; do
