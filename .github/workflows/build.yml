@@ -115,9 +115,10 @@ jobs:
       run: ${{ env.SCRIPTS_ROOT }}/install-ubuntu-deps
     - name: Set up macOS build environment
       if: runner.os == 'macOS'
-      run: |
-        ${{ env.SCRIPTS_ROOT }}/install-macos-deps
-        xcrun --show-sdk-version
+      run: ${{ env.SCRIPTS_ROOT }}/install-macos-deps
+    - name: Output macOS SDK version
+      if: runner.os == 'macOS'
+      run: xcrun --show-sdk-version
 
     # Build dependencies
 
