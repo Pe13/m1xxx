@@ -120,7 +120,6 @@ jobs:
         ${{ env.SCRIPTS_ROOT }}/install-macos-deps
         sudo xcode-select -s "${{ env.XCODE_ROOT }}"
         echo "==> Build environment"
-        uname -a
         xcode-select -p
         xcrun --show-sdk-version
 
