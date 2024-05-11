@@ -15,6 +15,7 @@ env:
   MIXXX_ROOT: '${{ github.workspace }}/mixxx'
   SCRIPTS_ROOT: '${{ github.workspace }}/scripts'
   XCODE_ROOT: /Applications/Xcode_15.2.app
+VCPKG_OSX_DEPLOYMENT_TARGET: 16
 
 jobs:
   build:
