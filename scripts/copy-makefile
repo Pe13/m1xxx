@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cp "${{ github.workspace }}/Makefile.in" "${{ github.workspace }}/mixxx/build/Makefile"
