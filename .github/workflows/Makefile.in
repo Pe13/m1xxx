@@ -1,0 +1,11 @@
+TARGET := iphone:clang:latest:16.0
+
+INSTALL_TARGET_PROCESSES = Mixxx
+ARCHS = arm64
+
+include $(THEOS)/makefiles/common.mk
+
+XCODEPROJ_NAME = mixxx
+mixxx_XCODE_SCHEME = mixxx
+
+include $(THEOS_MAKE_PATH)/xcodeproj.mk
