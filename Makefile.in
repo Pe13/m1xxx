@@ -2,6 +2,8 @@ TARGET := iphone:clang:latest:16.0
 
 INSTALL_TARGET_PROCESSES = Mixxx
 ARCHS = arm64
+FINALPACKAGE = 1
+PACKAGE_FORMAT = ipa
 
 include $(THEOS)/makefiles/common.mk
 
