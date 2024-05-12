@@ -7,6 +7,9 @@ if ! command -v brew >/dev/null; then
   exit 1
 fi
 
+# fix github actions problem
+sudo xcode-select -s /Library/Developer/CommandLineTools
+
 echo "==> Installing system dependencies with Homebrew..."
 brew install \
   automake \
