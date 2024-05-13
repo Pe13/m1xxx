@@ -134,6 +134,21 @@ jobs:
         xcode-select -p
         xcrun --show-sdk-version
 
+    # Setup Theos
+    - name: Check theos cache
+      run: |
+        echo upstream_heads=`git ls-remote https://github.com/theos/theos | head -n 1 | cut -f 1`-`git ls-remote https://github.com/theos/sdks | head -n 1 | cut -f 1` >> $GITHUB_ENV
+
+    - name: Use theos cache
+      id: cache
+      uses: actions/cache@v3
+      with:
+        path: ${{ github.workspace }}/theos
+        key: ${{ runner.os }}-${{ env.upstream_heads }}
+
+    - name: Prepare Theos
+      uses: Randomblock1/theos-action@v1
+
     # Build dependencies
 
     - name: Bootstrap vcpkg
@@ -184,21 +199,6 @@ jobs:
       with:
         name: ${{ env.DEPS_BASE_NAME }}-${{ env.vcpkg_commit_short }}
         path: ${{ env.VCPKG_ROOT }}/${{ env.DEPS_BASE_NAME }}-${{ env.vcpkg_commit_short }}.zip
-
-    # Setup Theos
-    - name: Check theos cache
-      run: |
-        echo upstream_heads=`git ls-remote https://github.com/theos/theos | head -n 1 | cut -f 1`-`git ls-remote https://github.com/theos/sdks | head -n 1 | cut -f 1` >> $GITHUB_ENV
-
-    - name: Use theos cache
-      id: cache
-      uses: actions/cache@v3
-      with:
-        path: ${{ github.workspace }}/theos
-        key: ${{ runner.os }}-${{ env.upstream_heads }}
-
-    - name: Prepare Theos
-      uses: Randomblock1/theos-action@v1
 
     # Build Mixxx
 
