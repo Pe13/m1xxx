@@ -150,6 +150,9 @@ jobs:
     - name: Prepare Theos
       uses: Randomblock1/theos-action@v1
 
+    - name: check theos sdks
+      run: ls -la ${{ env.VCPKG_OSX_SYSROOT }}
+
     # Build dependencies
 
     - name: Bootstrap vcpkg
