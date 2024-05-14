@@ -128,11 +128,19 @@ jobs:
       if: runner.os == 'macOS'
       run: |
         ${{ env.SCRIPTS_ROOT }}/install-macos-deps
-        sudo xcode-select -s "${{ env.XCODE_ROOT }}"
+        # sudo xcode-select -s "${{ env.XCODE_ROOT }}"
         echo "==> Build environment"
-        sudo xcode-select -s /Library/Developer/CommandLineTools
+        # sudo xcode-select -s /Library/Developer/CommandLineTools
+        echo "Currently selected developer directory:"
         xcode-select -p
+        echo "MacOSX SDK path:"
+        xcrun --show-sdk-path
+        echo "MacOSX SDK version:"
         xcrun --show-sdk-version
+        echo "iOS SDK path:"
+        xcrun --sdk iphoneos --show-sdk-path
+        echo "iOS SDK version:"
+        xcrun --sdk iphoneos --show-sdk-version
 
     # Setup Theos
     - name: Check theos cache
