@@ -1,0 +1,23 @@
+name: Tests
+
+on:
+  push
+
+jobs:
+  test:
+    strategy:
+        matrix:
+          include:
+          - name: iOS (arm64)
+            os: macos-14
+            suffix: ''
+            triplet: arm64-ios-release
+            host_triplet: arm64-osx-release
+            ccache_path: ~/Library/Caches/ccache
+
+    name: '${{ matrix.name }}'
+    runs-on: '${{ matrix.os }}'
+    
+    steps:
+    - name: Try xcrun
+      run: xcrun --sdk iphoneos --show-sdk-path
