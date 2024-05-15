@@ -124,6 +124,9 @@ jobs:
     - name: Set up Linux build environment
       if: runner.os == 'Linux'
       run: ${{ env.SCRIPTS_ROOT }}/install-ubuntu-deps
+    - name: test
+      if: runner.os == 'macOS'
+      run: xcrun --sdk iphoneos --show-sdk-path
     - name: Set up macOS build environment
       if: runner.os == 'macOS'
       run: |
@@ -141,7 +144,6 @@ jobs:
         xcrun --sdk iphoneos --show-sdk-path
         echo "iOS SDK version:"
         xcrun --sdk iphoneos --show-sdk-version
-
     # Setup Theos
     - name: Check theos cache
       run: |
