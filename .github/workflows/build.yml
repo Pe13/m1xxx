@@ -128,9 +128,9 @@ jobs:
       if: runner.os == 'macOS'
       run: |
         ${{ env.SCRIPTS_ROOT }}/install-macos-deps
-        sudo xcode-select -s "${{ env.XCODE_ROOT }}"
+        # sudo xcode-select -s "${{ env.XCODE_ROOT }}"
         echo "==> Build environment"
-        # sudo xcode-select -s /Library/Developer/CommandLineTools
+        sudo xcode-select -s /Library/Developer/CommandLineTools
         echo "Currently selected developer directory:"
         xcode-select -p
         echo "MacOSX SDK path:"
