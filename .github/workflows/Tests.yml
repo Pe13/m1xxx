@@ -21,5 +21,5 @@ jobs:
     steps:
     - name: Try xcrun
       run: |
-        echo hello
+        sudo xcode-select -s /Library/Developer/CommandLineTools
         xcrun --sdk iphoneos --show-sdk-path
