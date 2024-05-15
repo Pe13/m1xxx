@@ -126,7 +126,9 @@ jobs:
       run: ${{ env.SCRIPTS_ROOT }}/install-ubuntu-deps
     - name: test
       if: runner.os == 'macOS'
-      run: xcrun --sdk iphoneos --show-sdk-path
+      run: |
+        xcode-select -p
+        xcrun --sdk iphoneos --show-sdk-path
     - name: Set up macOS build environment
       if: runner.os == 'macOS'
       run: |
