@@ -14,7 +14,7 @@ env:
   VCPKG_ROOT: '${{ github.workspace }}/vcpkg'
   MIXXX_ROOT: '${{ github.workspace }}/mixxx'
   SCRIPTS_ROOT: '${{ github.workspace }}/scripts'
-  XCODE_ROOT: /Applications/Xcode_15.0.1.app
+  XCODE_ROOT: '/Applications/Xcode_15.0.1.app'
   SDK_ROOT: '${{ github.workspace }}/theos/sdks/iPhoneOS16.5.sdk'
 
 jobs:
@@ -133,7 +133,6 @@ jobs:
       if: runner.os == 'macOS'
       run: |
         ${{ env.SCRIPTS_ROOT }}/install-macos-deps
-        sudo xcode-select -s "${{ env.XCODE_ROOT }}"
         echo "==> Build environment"
         echo "Currently selected developer directory:"
         xcode-select -p
@@ -141,6 +140,7 @@ jobs:
         xcrun --show-sdk-path
         echo "MacOSX SDK version:"
         xcrun --show-sdk-version
+        sudo xcode-select -s "${{ env.XCODE_ROOT }}"
         echo "iOS SDK path:"
         xcrun --sdk iphoneos --show-sdk-path
         echo "iOS SDK version:"
