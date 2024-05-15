@@ -20,4 +20,6 @@ jobs:
     
     steps:
     - name: Try xcrun
-      run: xcrun --sdk iphoneos --show-sdk-path
+      run: |
+        echo hello
+        xcrun --sdk iphoneos --show-sdk-path
