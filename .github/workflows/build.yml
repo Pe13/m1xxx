@@ -198,7 +198,7 @@ jobs:
           ccache-${{ matrix.triplet }}-${{ env.mixxx_commit }}-
           ccache-${{ matrix.triplet }}-
     - name: Configure Mixxx build
-      run: ${{ env.SCRIPTS_ROOT }}/configure-mixxx -- -DHIDAPI_INCLUDE_PATH=${{ env.PREBUILT_ROOT }}/include -DHIDAPI_LIB_PATH=${{ env.PREBUILT_ROOT }}
+      run: ${{ env.SCRIPTS_ROOT }}/configure-mixxx -- -DHIDAPI_INCLUDE_PATH=${{ env.PREBUILT_ROOT }}/hidapi -DHIDAPI_LIB_PATH=${{ env.PREBUILT_ROOT }}
       working-directory: mixxx
     - name: Upload Mixxx configuration logs
       if: always()
