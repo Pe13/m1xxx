@@ -3,4 +3,8 @@
 cd "$(dirname $0)/.."
 set -e
 
-(cd mixxx && cmake --build build --target mixxx)
+cd mixxx/build
+
+xcodebuild -project mixxx.xcodeproj -scheme mixxx -destination generic/platform=iOS -sdk iphoneos \
+  IPHONEOS_DEPLOYMENT_TARGET=14.0 CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+

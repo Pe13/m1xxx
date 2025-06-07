@@ -53,7 +53,7 @@ def main():
             '-D', 'RUBBERBAND=OFF',
             '-D', 'QTKEYCHAIN=OFF',
             '-D', 'BATTERY=OFF',
-            '-D', 'HID=OFF',
+            '-D', 'HID=ON',
         ] if ios else []),
         *extra_cmake_args,
     ]

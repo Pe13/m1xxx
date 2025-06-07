@@ -14,7 +14,8 @@ env:
   VCPKG_ROOT: '${{ github.workspace }}/vcpkg'
   MIXXX_ROOT: '${{ github.workspace }}/mixxx'
   SCRIPTS_ROOT: '${{ github.workspace }}/scripts'
-  XCODE_ROOT: /Applications/Xcode_15.2.app
+  PREBUILT_ROOT: '${{ github.workspace }}/prebuilt'
+  XCODE_ROOT: '/Applications/Xcode_15.2.app'
 
 jobs:
   build:
@@ -27,9 +28,9 @@ jobs:
           triplet: arm64-ios-release
           host_triplet: arm64-osx-release
           ccache_path: ~/Library/Caches/ccache
-          cmake_args: >-
-            -DCMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED="NO"
-            -DCMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY=""
+#          cmake_args: >-
+#            -DCMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED="NO"
+#            -DCMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY=""
         # - name: macOS (arm64)
         #   os: macos-11
         #   suffix: ''
@@ -104,7 +105,7 @@ jobs:
       ARTIFACT_BASE_NAME: 'mixxx-${{ matrix.triplet }}${{ matrix.suffix }}'
       VCPKG_DEFAULT_TRIPLET: '${{ matrix.triplet }}'
       VCPKG_DEFAULT_HOST_TRIPLET: '${{ matrix.host_triplet }}'
-    
+
     steps:
     - uses: actions/checkout@v4
       with:
@@ -127,7 +128,7 @@ jobs:
       if: runner.os == 'macOS'
       run: |
         ${{ env.SCRIPTS_ROOT }}/install-macos-deps
-        sudo xcode-select -s "${{ env.XCODE_ROOT }}"
+#        sudo xcode-select -s "${{ env.XCODE_ROOT }}"
         echo "==> Build environment"
         xcode-select -p
         xcrun --show-sdk-version
@@ -163,7 +164,7 @@ jobs:
         # TODO: Share the key and the path with the previous step
         path: ${{ env.VCPKG_ROOT }}/installed
         key: vcpkg-installed-${{ matrix.os }}-${{ env.VCPKG_DEFAULT_TRIPLET }}-${{ env.vcpkg_commit }}-${{ github.ref }}-${{ github.run_number }}
-    
+
     # Export dependency archive to artifacts
 
     - name: Export vcpkg archive
@@ -197,7 +198,7 @@ jobs:
           ccache-${{ matrix.triplet }}-${{ env.mixxx_commit }}-
           ccache-${{ matrix.triplet }}-
     - name: Configure Mixxx build
-      run: ${{ env.SCRIPTS_ROOT }}/configure-mixxx -- ${{ matrix.cmake_args }}
+      run: ${{ env.SCRIPTS_ROOT }}/configure-mixxx -- -DHIDAPI_INCLUDE_PATH=${{ env.PREBUILT_ROOT }}/include -DHIDAPI_LIB_PATH=${{ env.PREBUILT_ROOT }}
       working-directory: mixxx
     - name: Upload Mixxx configuration logs
       if: always()
@@ -215,17 +216,17 @@ jobs:
         # TODO: Share the key with the setup step
         path: ${{ matrix.ccache_path }}
         key: ccache-${{ matrix.triplet }}-${{ env.mixxx_commit }}-${{ github.ref }}-${{ github.run_number }}
-    - name: Package Mixxx
-      if: matrix.package_extension && matrix.cpack_generator
-      run: cpack -G ${{ matrix.cpack_generator }} -V && mv *.${{ matrix.package_extension }} "mixxx-${{ env.mixxx_version }}-${{ matrix.triplet }}${{ matrix.suffix }}.${{ matrix.package_extension }}"
-      working-directory: mixxx/build
+#    - name: Package Mixxx
+#      if: matrix.package_extension && matrix.cpack_generator
+#      run: cpack -G ${{ matrix.cpack_generator }} -V && mv *.${{ matrix.package_extension }} "mixxx-${{ env.mixxx_version }}-${{ matrix.triplet }}${{ matrix.suffix }}.${{ matrix.package_extension }}"
+#      working-directory: mixxx/build
     - name: Upload packaged Mixxx binaries
-      if: matrix.package_extension && matrix.cpack_generator
+#      if: matrix.package_extension && matrix.cpack_generator
       uses: actions/upload-artifact@v4
       with:
         name: ${{ env.ARTIFACT_BASE_NAME }}
-        path: ${{ env.MIXXX_ROOT }}/build/*.${{ matrix.package_extension }}
-  
+        path: ${{ env.MIXXX_ROOT }}/build/build/*
+
   release:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
