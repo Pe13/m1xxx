@@ -15,7 +15,7 @@ env:
   MIXXX_ROOT: '${{ github.workspace }}/mixxx'
   SCRIPTS_ROOT: '${{ github.workspace }}/scripts'
   PREBUILT_ROOT: '${{ github.workspace }}/prebuilt'
-  XCODE_ROOT: '/Applications/Xcode_15.2.app'
+  XCODE_ROOT: /Applications/Xcode_15.2.app
 
 jobs:
   build:
@@ -23,11 +23,14 @@ jobs:
       matrix:
         include:
         - name: iOS (arm64)
-          os: macos-15
+          os: macos-14
           suffix: ''
           triplet: arm64-ios-release
           host_triplet: arm64-osx-release
           ccache_path: ~/Library/Caches/ccache
+          cmake_args: >-
+            -DCMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED="NO"
+            -DCMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY=""
         # - name: macOS (arm64)
         #   os: macos-11
         #   suffix: ''
@@ -124,11 +127,8 @@ jobs:
     - name: Set up macOS build environment
       if: runner.os == 'macOS'
       run: |
-        echo "Selected Xcode:"
-        xcode-select -p
-        echo "iPhoneOS.sdk path:"
-        xcrun -show-sdk-path -sdk iphoneos
         ${{ env.SCRIPTS_ROOT }}/install-macos-deps
+        sudo xcode-select -s "${{ env.XCODE_ROOT }}"
         echo "==> Build environment"
         xcode-select -p
         xcrun --show-sdk-version
