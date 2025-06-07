@@ -124,6 +124,10 @@ jobs:
     - name: Set up macOS build environment
       if: runner.os == 'macOS'
       run: |
+        echo "Selected Xcode:"
+        xcode-select -p
+        echo "iPhoneOS.sdk path:"
+        xcrun -show-sdk-path -sdk iphoneos
         ${{ env.SCRIPTS_ROOT }}/install-macos-deps
         echo "==> Build environment"
         xcode-select -p
